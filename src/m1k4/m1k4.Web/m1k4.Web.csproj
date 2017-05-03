@@ -21,5 +21,10 @@
   <ItemGroup>
     <ProjectReference Include="..\m1k4\m1k4.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
