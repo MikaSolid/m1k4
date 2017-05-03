@@ -13,7 +13,7 @@ namespace m1k4.Web
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseContentRoot(Directory.GetCurrentDirectory() + "/m1k4.Web")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
