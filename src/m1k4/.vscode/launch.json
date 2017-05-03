@@ -8,7 +8,7 @@
             "preLaunchTask": "build",
             "program": "${workspaceRoot}/m1k4.Web/bin/Debug/netcoreapp1.1/m1k4.Web.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/m1k4.Web",
             "stopAtEntry": false,
             "console": "internalConsole"
         },
