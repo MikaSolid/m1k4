@@ -10,6 +10,11 @@ namespace m1k4.MsSql
         }
 
         public DbSet<User> Users {get;set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("User");
+        }
     }
 
 }

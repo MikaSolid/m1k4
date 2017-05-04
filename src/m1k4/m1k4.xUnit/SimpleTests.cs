@@ -2,6 +2,8 @@ using m1k4.MsSql;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 namespace m1k4.xUnit
 {
@@ -17,8 +19,14 @@ namespace m1k4.xUnit
         [Fact]
         public void TestDb()
         {
+            var builder = new ConfigurationBuilder()
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+              .AddEnvironmentVariables();
+
+            var Configuration = builder.Build();
             var optionsBuilder = new DbContextOptionsBuilder<m1k4DbContext>();
-            optionsBuilder.UseSqlServer("Server=192.168.1.5;Database=m1k4;user=m1k4;password=m1k4");
+            var cnString = Configuration.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(cnString);
             var db = new m1k4DbContext(optionsBuilder.Options);
             var users = db.Users.First();
         }
