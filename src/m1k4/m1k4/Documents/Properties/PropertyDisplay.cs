@@ -65,8 +65,6 @@ namespace m1k4.Model.Documents
         {
             get
             {
-                return false;
-
                 switch (_property.PropertyType)
                 {
                     case PropertyType.Literal:
