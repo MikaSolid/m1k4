@@ -10,6 +10,13 @@
             "taskName": "build",
             "args": [ ],
             "isBuildCommand": true,
+            "showOutput": "always",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "test",
+            "args": ["m1k4.xUnit/m1k4.xUnit.csproj" ],
+            "isTestCommand": true,
             "showOutput": "silent",
             "problemMatcher": "$msCompile"
         }
