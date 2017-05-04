@@ -1,0 +1,137 @@
+﻿USE m1k4
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Party' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[Party]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Code] NVARCHAR(50) NULL
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Person' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[Person]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [FirstName] NVARCHAR(100) NOT NULL, 
+    [LastName] NVARCHAR(100) NOT NULL, 
+    [Comment] NVARCHAR(MAX) NULL, 
+    CONSTRAINT [FK_Person_Party] FOREIGN KEY ([Id]) REFERENCES [Party]([Id])
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'User' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[User]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    Email nvarchar(200) NOT NULL,
+    [Password] NVARCHAR(800) NOT NULL, 
+    [Comment] NVARCHAR(MAX) NULL, 
+	[JoinDate] DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT [FK_User_Person] FOREIGN KEY ([Id]) REFERENCES [Person]([Id])
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM [dbo].[User] WHERE Email = 'admin@m1k4.com')
+BEGIN
+DECLARE @PartyId INT;
+
+	INSERT INTO [dbo].[Party] (Code) VALUES ('ADMIN');
+
+	SET @PartyId = @@IDENTITY; 
+
+	INSERT INTO [dbo].[Person] (Id, FirstName, LastName, Comment) VALUES (@PartyId, 'Milan', 'Kostadinovic','Superadmin')
+
+	INSERT INTO [dbo].[User] (Id, Email, [Password], [Comment]) 
+	VALUES (@PartyId, 'admin@m1k4.com', '148de9c5a7a44d19e56cd9ae1a554bf67847afb0c58f6e12fa29ac7ddfca9940', 'Superuser')
+
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Organization' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[Organization]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(1000) NOT NULL, 
+    CONSTRAINT [FK_Organization_Party] FOREIGN KEY ([Id]) REFERENCES [Party]([Id])
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Company' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[Company]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [CompanyNumber] NVARCHAR(50) NULL, 
+    [TaxNumber] NVARCHAR(50) NULL, 
+    CONSTRAINT [FK_Company_Organization] FOREIGN KEY ([Id]) REFERENCES [Organization]([Id])
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Product' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[Product]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+	[Name] NVARCHAR(100) NULL, 
+	[Description] NVARCHAR(100) NULL,
+	[Price] DECIMAL(18, 2) NOT NULL
+)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ContactMechanism' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[ContactMechanism]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'PartyContactMechanism' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[PartyContactMechanism]
+(
+	[Id] INT NOT NULL IDENTITY,
+	[PartyId] INT NOT NULL , 
+    [ContactMechanismId] INT NOT NULL, 
+    [Comment] NVARCHAR(50) NULL, 
+    CONSTRAINT [FK_PartyContactMechanism_Party] FOREIGN KEY ([PartyId]) REFERENCES [Party]([Id]), 
+    CONSTRAINT [FK_PartyContactMechanism_ContactMechanism] FOREIGN KEY ([ContactMechanismId]) REFERENCES [ContactMechanism]([Id]), 
+    CONSTRAINT [PK_PartyContactMechanism] PRIMARY KEY ([Id])
+)
+END
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'PostalAddress' AND COLUMN_NAME = 'Id')
+BEGIN
+CREATE TABLE [dbo].[PostalAddress]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Address1] NVARCHAR(200) NULL, 
+    [Address2] NCHAR(200) NULL, 
+    [City] NVARCHAR(100) NULL, 
+    [ZipCode] NVARCHAR(20) NULL, 
+    [State] NVARCHAR(50) NULL, 
+    [Country] NVARCHAR(50) NULL, 
+    CONSTRAINT [FK_PostalAddress_ContactMechanism] FOREIGN KEY ([Id]) REFERENCES [ContactMechanism]([Id])
+)
+END
+GO
