@@ -2,7 +2,6 @@ using m1k4.MsSql;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 
 namespace m1k4.xUnit

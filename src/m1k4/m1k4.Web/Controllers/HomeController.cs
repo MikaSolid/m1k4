@@ -31,5 +31,10 @@ namespace m1k4.Web.Controllers
         {
             return View();
         }
+
+        //public async Task<IActionResult> Index2()
+        //{
+        //    // return View(await _context.Students.ToListAsync());
+        //}
     }
 }
