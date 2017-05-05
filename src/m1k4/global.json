@@ -1,0 +1,9 @@
+{
+    "projects" : [
+        "m1k4",
+        "m1k4.Web",
+        "m1k4.MsSql",
+        "m1k4.WebApi",
+        "m1k4.xUnit"
+    ]
+}
