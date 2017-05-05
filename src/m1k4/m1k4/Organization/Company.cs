@@ -40,7 +40,6 @@ namespace m1k4.Model
         public  Customer ToCustomer()
         {
             var c = new Customer();
-            c.Id = Id;
             c.Name = Name;
             c.ContactMechanisms = ContactMechanisms;
             return c;

@@ -32,9 +32,7 @@ namespace m1k4.Model
         public DateTime BirthDate { get; set; }
 
         public IEnumerable<Role> Roles { get; set; }
-
-        public string Comments { get; set; }
-
+        
         public List<ContactMechanism> ContactMechanisms
         {
             get
@@ -50,7 +48,6 @@ namespace m1k4.Model
         public Customer ToCustomer()
         {
             var c = new Customer();
-            c.Id = Id;
             c.Name = Name;
             c.ContactMechanisms = ContactMechanisms;
             return c;

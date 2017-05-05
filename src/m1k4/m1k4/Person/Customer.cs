@@ -8,8 +8,6 @@ namespace m1k4.Model
 
         public readonly static Customer NotSet = new Customer { Name = "Unknown" };
 
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public List<ContactMechanism> ContactMechanisms
