@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\m1k4.Universe\m1k4.Universe.csproj" />
     <ProjectReference Include="..\m1k4\m1k4.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
   </ItemGroup>
